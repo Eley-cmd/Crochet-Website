@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
-
+export const runtime = 'nodejs';
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
