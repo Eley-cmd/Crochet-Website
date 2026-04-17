@@ -5,6 +5,7 @@
  */
 import { NextRequest, NextResponse } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { sendStatusUpdateEmail } from "@/lib/email"; // Re-added the import
 import type { UpdateOrderStatusPayload, ActionResult, Order, OrderStatus } from "@/types";
 
 const VALID_STATUSES: OrderStatus[] = ["pending", "paid", "shipped", "cancelled"];
@@ -44,5 +45,19 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json<ActionResult>({ success: false, data: null, error: "Failed to update order status." }, { status: 500 });
   }
 
-  return NextResponse.json<ActionResult<Order>>({ success: true, data: data as Order, error: null });
+  const updatedOrder = data as Order;
+
+  // FIXED: We now AWAIT the email so Vercel doesn't kill the function early
+  try {
+    await sendStatusUpdateEmail(updatedOrder);
+  } catch (emailErr: unknown) {
+    // We log the error but still return success because the DB was updated
+    console.error("[PATCH /api/orders/status] Customer email failed:", emailErr);
+  }
+
+  return NextResponse.json<ActionResult<Order>>({
+    success: true,
+    data: updatedOrder,
+    error: null
+  });
 }

@@ -67,10 +67,13 @@ export async function POST(req: NextRequest) {
 
   const order = data as Order;
 
-  // Fire-and-forget email notification — don't block the response on email success
-  sendOrderNotificationEmail(order).catch((emailError: unknown) => {
+  // WAIT for the email to finish before sending the success response
+  try {
+    await sendOrderNotificationEmail(order);
+  } catch (emailError) {
+    // We log the error but still return success:true because the order IS in the DB
     console.error("[POST /api/orders] Email notification failed:", emailError);
-  });
+  }
 
   return NextResponse.json<ActionResult<Order>>({
     success: true,

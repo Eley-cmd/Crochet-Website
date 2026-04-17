@@ -44,18 +44,18 @@ export default function CheckoutPage() {
     }
   }, []);
 
-  /** Recalculate total whenever cart changes */
+  /* Recalculate total whenever cart changes */
   const total = cart.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
     0
   );
 
-  /** Update a single form field */
+  /* Update a single form field */
   function handleField(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
-  /** Update item quantity or remove if set to 0 */
+  /* Update item quantity or remove if set to 0 */
   function updateQuantity(productId: string, delta: number) {
     setCart((prev) => {
       const updated = prev
@@ -70,7 +70,7 @@ export default function CheckoutPage() {
     });
   }
 
-  /** Remove an item entirely */
+  /* Remove an item entirely */
   function removeItem(productId: string) {
     setCart((prev) => {
       const updated = prev.filter((item) => item.product.id !== productId);
@@ -79,7 +79,7 @@ export default function CheckoutPage() {
     });
   }
 
-  /** Submit order to the API route */
+  /* Submit order to the API route */
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setSubmitting(true);
@@ -122,9 +122,9 @@ export default function CheckoutPage() {
     }
   }
 
-  // ----------------------------------------------------------------
+
   // SUCCESS STATE
-  // ----------------------------------------------------------------
+
   if (success) {
     return (
       <main className="min-h-screen bg-cream flex items-center justify-center px-4">
@@ -155,9 +155,8 @@ export default function CheckoutPage() {
     );
   }
 
-  // ----------------------------------------------------------------
   // EMPTY CART
-  // ----------------------------------------------------------------
+
   if (cart.length === 0) {
     return (
       <main className="min-h-screen bg-cream flex items-center justify-center px-4">
@@ -170,9 +169,8 @@ export default function CheckoutPage() {
     );
   }
 
-  // ----------------------------------------------------------------
   // CHECKOUT FORM
-  // ----------------------------------------------------------------
+
   return (
     <main className="min-h-screen bg-cream">
       {/* Nav */}
