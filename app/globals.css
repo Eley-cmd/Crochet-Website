@@ -1,0 +1,115 @@
+/**
+ * app/globals.css
+ * Base Tailwind directives and minimal global overrides.
+ * All color/font values come from tailwind.config.ts — no magic numbers here.
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Smooth scrolling across the app */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Headings use the serif (Libre Baskerville) by default */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif text-matcha;
+  }
+
+  /* Ensure images don't overflow containers */
+  img {
+    @apply max-w-full h-auto;
+  }
+
+  /* Focus ring — accessible, on-brand */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-matcha;
+  }
+}
+
+@layer components {
+  /* Primary button — used for main CTAs */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2
+      bg-matcha text-cream
+      font-sans font-semibold text-sm tracking-wide
+      px-5 py-2.5 rounded-lg
+      border border-matcha
+      transition-colors duration-150
+      hover:bg-matcha-dark hover:border-matcha-dark
+      focus-visible:ring-2 focus-visible:ring-matcha focus-visible:ring-offset-2
+      disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* Secondary / outline button */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2
+      bg-transparent text-matcha
+      font-sans font-semibold text-sm tracking-wide
+      px-5 py-2.5 rounded-lg
+      border border-matcha
+      transition-colors duration-150
+      hover:bg-cream-dark
+      focus-visible:ring-2 focus-visible:ring-matcha focus-visible:ring-offset-2
+      disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* Danger button — for delete / cancel actions */
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2
+      bg-red-700 text-white
+      font-sans font-semibold text-sm tracking-wide
+      px-5 py-2.5 rounded-lg
+      border border-red-700
+      transition-colors duration-150
+      hover:bg-red-800
+      focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2
+      disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* Standard card container */
+  .card {
+    @apply bg-white rounded-xl border border-cream-dark shadow-card p-5;
+  }
+
+  /* Form input field */
+  .input {
+    @apply w-full
+      bg-white text-sesame text-sm
+      border border-latte rounded-lg
+      px-4 py-2.5
+      placeholder:text-sesame-muted
+      transition-colors duration-150
+      focus:outline-none focus:border-matcha focus:ring-1 focus:ring-matcha;
+  }
+
+  /* Form label */
+  .label {
+    @apply block text-xs font-semibold uppercase tracking-wider text-sesame-muted mb-1.5;
+  }
+
+  /* Status badge */
+  .badge {
+    @apply inline-flex items-center
+      px-2.5 py-0.5 rounded-full
+      text-xs font-semibold uppercase tracking-wide;
+  }
+
+  .badge-pending  { @apply badge bg-amber-100  text-amber-800; }
+  .badge-paid     { @apply badge bg-green-100  text-green-800; }
+  .badge-shipped  { @apply badge bg-blue-100   text-blue-800; }
+  .badge-cancelled { @apply badge bg-red-100   text-red-800; }
+}
+
+@layer utilities {
+  /* Hide scrollbar while maintaining scroll functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
